@@ -25,24 +25,28 @@ export const verifyToken = (req, res, next) => {
 };
 
 
-
-
-
-
-// export const userVerification = (req, res) => {
-//   const token = req.cookies.token;
-//   if (!token) {
-//     return res.json({ status: false });
-//   }
-//   jwt.verify(token, process.env.TOKEN_KEY, async (err, data) => {
+export const Adminverify =async(req, res, next) => {
   
-//     if (err) {
-//       return res.json({ status: false });
-//     } else {
-//       const user = await User.findById(data.id);
-//       if (user) return res.json({ status: true, user: user.username });
-//       else return res.json({ status: false });
-//     }
-//   });
-// };
+  const token = req.cookies.admintoken;
 
+
+  if (!token) {
+    return res.status(401).json({ message: 'No token found. Please login.' });
+  }
+
+  try {
+
+    const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+    
+   const admin=await User.findById(decoded.id)
+    if(!admin.admin){
+      return res.status(403).json({msg:'you are not admin'})
+      
+    }
+    
+    next();
+  } catch (error) {
+    console.error(error);
+    return res.status(403).json({ message: 'Invalid or expired token. Please login again.' });
+  }
+};

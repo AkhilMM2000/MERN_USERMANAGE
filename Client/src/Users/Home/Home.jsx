@@ -130,7 +130,7 @@ const uploadimage=async()=>{
   try {
     
     const response = await axios.patch('http://localhost:4000/edituser', editeduser, {
-      withCredentials: true, // Allow sending cookies
+      withCredentials: true, 
     });
 const editerData= response.data.user
  
@@ -157,7 +157,6 @@ const editerData= response.data.user
   const handleLogoutClick=()=>{
     Cookies.remove("token");
 
-   
     navigate("/login", { replace: true });
   }
 
@@ -200,7 +199,7 @@ alt="User" className="user-image" />
             style={{ display: 'none' }}
           />
            
-           <label htmlFor="image-upload">
+           <label htmlFor="image-upload"  style={{ cursor: 'pointer' }}>
           {image ? (
             // Show uploaded image or existing image
             <img

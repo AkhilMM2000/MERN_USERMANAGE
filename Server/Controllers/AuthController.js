@@ -8,7 +8,6 @@ export const Signup = async (req, res, next) => {
   try {
     const { email, password, username,image, createdAt } = req.body;
    
-    
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.json({ message: "User already exists" });
@@ -34,7 +33,6 @@ export const Login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    
     const user = await User.findOne({ email });
     if(!user){
       return res.json({message:'Incorrect password or email' }) 
@@ -64,7 +62,6 @@ export const Getdata = async (req, res) => {
     const userData = await User.findById(decoded.id);
 
   
-  
     if (userData) {
       res.status(201).json({ msg: "success", userData });
     }
@@ -81,7 +78,7 @@ try {
     const userId=jwt.verify(token,process.env.TOKEN_KEY).id
     const { username, email, image } = req.body; // Updated fields from the frontend
 
-    
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { username, email, image },
@@ -96,10 +93,11 @@ try {
       user: updatedUser,
     });
     
-
 } catch (error) {
   return res
   .status(403)
   .json({ message: "Invalid or expired token. Please login again." });
 }
 }
+
+
